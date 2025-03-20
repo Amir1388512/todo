@@ -31,6 +31,7 @@ class SignUp(ck.CTk):
         if    40 > len(username) < 5 & 40 > len(password) < 6:
 
             self._db.insert_into_db(username, password)
+            print(self._db.see_data())
 
 
         else:

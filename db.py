@@ -26,6 +26,7 @@ class Db:
         self.cursor.execute('SELECT username FROM user WHERE username = ?', (username,))
         if self.cursor.fetchone() is not None:
             print(f"Username '{username}' already exists. Skipping insertion.")
+            raise ValueError
             self.connection.close()
             return
 

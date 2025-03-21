@@ -1,4 +1,12 @@
+from distutils.command.install import value
+
 import customtkinter as ck
+from fontTools.misc.cython import returns
+from pymsgbox import password
+
+from db import Db
+from tkinter import messagebox
+
 
 # create signin class
 class Signin(ck.CTk):
@@ -22,18 +30,25 @@ class Signin(ck.CTk):
 
 
     def btn_callback(self):
+        self._db = Db('database.db')
 
         username = self.username.get()
         password = self.password.get()
 
-        if len(username) < 5:
-            pass
+        if  40 > len(username) > 5 and   40> len(password) > 6:
+                value = self._db.select_user(username)
+                if value and value[1] == password:
+                    return True
+                else:
+                    messagebox.showerror("Error",
+                                         "Not Found")
+                    return False
 
-        elif len(password) < 6:
-            pass
 
         else:
-            pass
+            messagebox.showerror("Error",
+                                 "Username must be longer than 5 characters and password must be longer than 6 characters.")
 
 
-
+app = Signin()
+app.mainloop()

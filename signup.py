@@ -1,5 +1,6 @@
 import customtkinter as ck
 from db import Db
+from tkinter import messagebox
 
 # create signup class
 class SignUp(ck.CTk):
@@ -22,21 +23,27 @@ class SignUp(ck.CTk):
         self.submit_btn.pack(pady=15)
 
 
+
+
     def btn_callback(self):
         self._db = Db('database.db')
 
         username = self.username.get()
         password = self.password.get()
 
-        if    40 > len(username) < 5 & 40 > len(password) < 6:
-
-            self._db.insert_into_db(username, password)
-            print(self._db.see_data())
-
+        if  40 > len(username) > 5 and   40> len(password) > 6:
+            try :
+                self._db.insert_into_db(username, password)
+                return True
+            except ValueError:
+                messagebox.showerror("Error",
+                                     "Username Already Exists")
+                return False
 
         else:
-            pass
-
+            messagebox.showerror("Error",
+                                 "Username must be longer than 5 characters and password must be longer than 6 characters.")
+            return False
 
 
 app = SignUp()
